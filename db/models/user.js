@@ -1,22 +1,29 @@
-module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('User', {
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        mail: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    })
+const bcrypt = require("bcrypt");
 
-    User.associate = function (models) {
-        // Code for associations (relationships)
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define("User", {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    mail: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
-    return User
-}
+  });
+
+  User.associate = function(models) {
+    // Code for associations (relationships)
+  };
+
+  User.beforeCreate(async user => {
+    user.password = await bcrypt.hash(user.password, 10);
+  });
+
+  return User;
+};

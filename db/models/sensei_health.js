@@ -1,13 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
-  const Sensei_health = sequelize.define('Sensei_health', {
+  const Sensei_health = sequelize.define("Sensei_health", {
     name: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-  })
+    }
+  });
 
-  Sensei_health.associate = function (models) {
-    // Code for associations (relationships)
-  }
-  return Sensei_health
-}
+  Sensei_health.associate = function(models) {
+    Sensei_health.hasMany(models.Sensei);
+  };
+  return Sensei_health;
+};

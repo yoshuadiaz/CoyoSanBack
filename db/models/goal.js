@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Goal = sequelize.define('Goal', {
+  const Goal = sequelize.define("Goal", {
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -12,17 +12,25 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER(11),
       allowNull: false
     },
+
+    aumontToBe: {
+      type: DataTypes.REAL(10, 2),
+      allowNull: false
+    },
+
     id_user: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'User',
-        key: 'id'
+        model: "User",
+        key: "id"
       }
     }
-  })
+  });
 
-  Goal.associate = function (models) {
-    // Code for associations (relationships)
-  }
-  return Goal
-}
+  Goal.associate = function(models) {
+    Goal.hasOne(models.User);
+    Goal.hasMany(models.Saving);
+    Goal.hasOne(models.Sensei);
+  };
+  return Goal;
+};

@@ -18,8 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = function(models) {
-    User.hasMany(models.Goal);
-    // Code for associations (relationships)
+    User.hasMany(models.goal);
   };
 
   User.beforeCreate(async user => {

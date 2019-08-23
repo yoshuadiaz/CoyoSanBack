@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Saving.associate = function(models) {
-    Saving.hasOne(model.Goal);
+    Saving.hasOne(model.goal);
   };
   return Saving;
 };

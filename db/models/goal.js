@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
 
-    aumontToBe: {
+    amountToBe: {
       type: DataTypes.REAL(10, 2),
       allowNull: false
     },
@@ -28,9 +28,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Goal.associate = function(models) {
-    Goal.hasOne(models.User);
-    Goal.hasMany(models.Saving);
-    Goal.hasOne(models.Sensei);
+    Goal.hasOne(models.user);
+    Goal.hasMany(models.saving);
+    Goal.hasOne(models.sensei);
   };
   return Goal;
 };

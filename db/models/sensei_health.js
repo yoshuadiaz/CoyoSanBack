@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Sensei_health.associate = function(models) {
-    Sensei_health.hasMany(models.Sensei);
+    Sensei_health.hasMany(models.sensei);
   };
   return Sensei_health;
 };

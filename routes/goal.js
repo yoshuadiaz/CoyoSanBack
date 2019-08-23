@@ -28,7 +28,7 @@ Router.post("/signup", async function(request, response) {
     name,
     price,
     months,
-    amonutToBe = price/months,
+    amountToBe = price/months,
     id_user= decoded.id
   });
   console.log(newGoal);

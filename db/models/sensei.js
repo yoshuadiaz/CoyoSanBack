@@ -28,7 +28,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Sensei.associate = function(models) {
-    Sensei.hasOne(model.Goal);
+    Sensei.hasOne(models.goal);
+    Sensei.hasOne(models.sensei_health);
+    Sensei.hasOne(models.sensei_tye);
   };
   return Sensei;
 };

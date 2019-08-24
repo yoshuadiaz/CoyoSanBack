@@ -10,6 +10,7 @@ const app = express();
 const SenseiTypesRouter = require("./routes/sensei_types");
 const UserRouter = require("./routes/user");
 const GoalRouter = require("./routes/goal");
+const sensei_health = require("../controlers/sensei_health");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = function(models) {
-    User.hasMany(models.goal);
+    User.hasMany(models.Goal, {
+      foreignKey: "id_user",
+      sourceKey: "id"
+    });
   };
 
   User.beforeCreate(async user => {

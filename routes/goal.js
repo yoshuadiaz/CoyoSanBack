@@ -24,15 +24,17 @@ Router.post("/signup", async function(request, response) {
   const privateKey = process.env.SECRET_KEY;
   var decoded = jwt.verify(token, privateKey);
 
+  console.log("DECODED: ", decoded);
+
   const newGoal = await db.Goal.create({
     name,
     price,
     months,
-    amountToBe = price/months,
-    id_user= decoded.id
+    amountToBe: price / months,
+    id_user: decoded.id
   });
   console.log(newGoal);
-  return response.send({token});
+  return response.send({ token });
 });
 
 Router;

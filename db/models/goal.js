@@ -17,20 +17,28 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.REAL(10, 2),
       allowNull: false
     },
-
+    amountAccumReal: {
+      type: DataTypes.REAL(10, 2),
+      allowNull: false,
+      defaultValue: 0
+    },
     id_user: {
+      field: "id_user",
       type: DataTypes.INTEGER,
       references: {
-        model: "User",
+        model: "Users",
         key: "id"
       }
     }
   });
 
   Goal.associate = function(models) {
-    Goal.hasOne(models.user);
-    Goal.hasMany(models.saving);
-    Goal.hasOne(models.sensei);
+    Goal.belongsTo(models.User, {
+      foreignKey: "id_user",
+      sourceKey: "id"
+    });
+    Goal.hasMany(models.Saving);
+    Goal.hasOne(models.Sensei);
   };
   return Goal;
 };

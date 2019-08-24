@@ -7,30 +7,39 @@ module.exports = (sequelize, DataTypes) => {
     id_goal: {
       type: DataTypes.INTEGER,
       references: {
-        model: "Goal",
+        model: "Goals",
         key: "id"
       }
     },
     id_sensei_health: {
       type: DataTypes.INTEGER,
       references: {
-        model: "Sensei_health",
+        model: "Sensei_healths",
         key: "id"
       }
     },
     id_sensei_type: {
       type: DataTypes.INTEGER,
       references: {
-        model: "Sensei_type",
+        model: "Sensei_types",
         key: "id"
       }
     }
   });
 
   Sensei.associate = function(models) {
-    Sensei.hasOne(models.goal);
-    Sensei.hasOne(models.sensei_health);
-    Sensei.hasOne(models.sensei_tye);
+    Sensei.belongsTo(models.Goal, {
+      foreignKey: "id_user",
+      sourceKey: "id"
+    });
+    Sensei.belongsTo(models.Sensei_health, {
+      foreignKey: "id_sensei_health",
+      sourceKey: "id"
+    });
+    Sensei.belongsTo(models.Sensei_type, {
+      foreignKey: "id_sensei_type",
+      sourceKey: "id"
+    });
   };
   return Sensei;
 };

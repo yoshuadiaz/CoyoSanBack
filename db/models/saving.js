@@ -22,9 +22,13 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Saving.afterCreate(saving => {
-    const goal = Goal.findOne({ where: { id: saving.id } });
-    goal.amountAccumReal = goal.amountAccumReal + saving.amount;
+  Saving.afterCreate(async saving => {
+    const goal = await sequelize.models.Goal.findOne({
+      where: { id: saving.id_goal }
+    });
+    goal.amountAccumReal =
+      parseFloat(goal.amountAccumReal) + parseFloat(saving.amount);
+    goal.save();
   });
 
   return Saving;

@@ -46,7 +46,7 @@ Router.post("/signup", async function(request, response) {
       { transaction }
     );
 
-    await db.Goal.create(
+    const newGoal = await db.Goal.create(
       {
         name: goal_name,
         price: goal_price,
@@ -59,7 +59,7 @@ Router.post("/signup", async function(request, response) {
     transaction.commit();
 
     const privateKey = process.env.SECRET_KEY;
-    const token = jwt.sign({ id: newUser.id }, privateKey);
+    const token = jwt.sign({ id: newUser.id, id_goal: newGoal.id }, privateKey);
     return response.send({ token });
   } catch (error) {
     trasaction.rollback();

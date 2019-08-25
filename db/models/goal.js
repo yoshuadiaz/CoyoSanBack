@@ -37,8 +37,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "id_user",
       sourceKey: "id"
     });
-    Goal.hasMany(models.Saving);
-    Goal.hasOne(models.Sensei);
+    Goal.hasMany(models.Saving, {
+      foreignKey: "id_goal",
+      sourceKey: "id"
+    });
+    Goal.hasOne(models.Sensei, {
+      foreignKey: "id_goal",
+      sourceKey: "id"
+    });
   };
   return Goal;
 };

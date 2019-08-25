@@ -6,7 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   Sensei_type.associate = function(models) {
-    Sensei_type.hasMany(models.Sensei);
+    Sensei_type.hasMany(models.Sensei, {
+      foreignKey: "id_sensei_type",
+      sourceKey: "id"
+    });
   };
   return Sensei_type;
 };

@@ -11,6 +11,8 @@ Router.post("/signup", async function(request, response) {
   const goal_name = request.body.goal_name;
   const goal_price = request.body.goal_price;
   const goal_months = request.body.goal_months;
+  const sensei_name = request.body.sensei_name;
+  const sensei_type_id = request.body.sensei_type_id;
 
   if (!name) {
     return response.status(400).send("Mandatory field");
@@ -30,11 +32,20 @@ Router.post("/signup", async function(request, response) {
   if (goal_months < 6 || !goal_months) {
     return response.status(400).send("Goal need to be more than six months");
   }
-
+  if (!sensei_name) {
+    return response.status(400).send("Mandatory field");
+  }
   const userExist = await db.User.findOne({ where: { mail } });
   if (userExist) {
     return response.status(400).send("This user exist");
   }
+  const senesiTypeExist = await db.Sensei_type.findOne({
+    where: { id: sensei_type_id }
+  });
+  if (!senesiTypeExist) {
+    return response.status(400).send("Don't have this type of Sensei");
+  }
+
   const transaction = await db.sequelize.transaction();
   try {
     const newUser = await db.User.create(
@@ -53,6 +64,15 @@ Router.post("/signup", async function(request, response) {
         months: goal_months,
         amountToBe: goal_price / goal_months,
         id_user: newUser.id
+      },
+      { transaction }
+    );
+
+    await db.Sensei.create(
+      {
+        name: sensei_name,
+        id_goal: newGoal.id,
+        id_sensei_type: sensei_type_id
       },
       { transaction }
     );

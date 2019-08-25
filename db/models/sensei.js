@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Sensei.associate = function(models) {
     Sensei.belongsTo(models.Goal, {
-      foreignKey: "id_user",
+      foreignKey: "id_goal",
       sourceKey: "id"
     });
     Sensei.belongsTo(models.Sensei_health, {

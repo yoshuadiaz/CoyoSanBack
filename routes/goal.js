@@ -2,40 +2,20 @@ const express = require("express");
 const db = require("../db/models");
 const jwt = require("jsonwebtoken");
 const Router = express.Router();
+const senei_health = require("../controlers/sensei_health");
 
-Router.post("/signup", async function(request, response) {
+Router.get("/", async function(request, response) {
   const token = request.headers.authorization;
-  //obtener el token
-  const name = request.body.name;
-  const price = request.body.price;
-  const months = request.body.months;
-  //verificar que los campos no sean null o de diferente tipo
-  if (!name) {
-    return response.console.error("Mandatory field");
-  }
-  if (!price) {
-    return response.console.error("Goal can't be $0.00");
-  }
-  if (months < 6 || !months) {
-    return response.console.error("Goal need to be more than six months");
-  }
-
-  //guardar el nuevo usuario en la base de datos
   const privateKey = process.env.SECRET_KEY;
   var decoded = jwt.verify(token, privateKey);
-
-  console.log("DECODED: ", decoded);
-
-  const newGoal = await db.Goal.create({
-    name,
-    price,
-    months,
-    amountToBe: price / months,
-    id_user: decoded.id
+  const goal = await db.Goal.findOne({
+    where: { id: decoded.id_goal },
+    include: [{ model: db.Sensei }, { model: db.Saving }]
   });
-  console.log(newGoal);
-  return response.json(newGoal);
+
+  // await db.Goal.update({});
+  console.log(goal);
+  return response.json(goal);
 });
 
-Router;
 module.exports = Router;

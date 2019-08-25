@@ -34,7 +34,7 @@ Router.post("/signup", async function(request, response) {
     id_user: decoded.id
   });
   console.log(newGoal);
-  return response.send({ token });
+  return response.json(newGoal);
 });
 
 Router;

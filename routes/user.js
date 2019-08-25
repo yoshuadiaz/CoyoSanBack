@@ -1,7 +1,7 @@
 const express = require("express");
 const db = require("../db/models");
 const jwt = require("jsonwebtoken");
-//^w^ const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const Router = express.Router();
 
 Router.post("/signup", async function(request, response) {
@@ -89,21 +89,31 @@ Router.post("/signup", async function(request, response) {
   }
 });
 
-//^w^ Router.post("/login", async function(request, response) {
-//   const mail = request.body.mail;
-//   const password = request.body.password;
-//   //verificar que el email existe en la bd
-//   const userExist = await db.User.findOne({ where: { mail } });
-//   if (!userExist) {
-//     return response.send("This user not exist");
-//   }
-//   //verificar que el password consida con el password del email
-//   const passwordValid = await bcrypt.compare(password, user.password);
-//   if (!passwordValid) {
-//     return response.send("Password dismach");
-//   }
-//   return response.redirect("http://coyosan.com/summary" + req.url);
-//^w^ });
+Router.post("/login", async function(request, response) {
+  try {
+    const mail = request.body.mail;
+    const password = request.body.password;
+    const userExist = await db.User.findOne({ where: { mail } });
+
+    if (!userExist) {
+      return response.status(400).send("This user not exist");
+    }
+
+    const passwordValid = await bcrypt.compare(password, userExist.password);
+
+    if (!passwordValid) {
+      return response.status(400).send("Password dismach");
+    }
+
+    const goal = await db.Goal.findOne({ where: { id_user: userExist.id } });
+    const privateKey = process.env.SECRET_KEY;
+    const token = jwt.sign({ id: userExist.id, id_goal: goal.id }, privateKey);
+    return response.send({ token });
+  } catch {
+    response.status(400).send("Unexpected error");
+    response.end();
+  }
+});
 
 Router;
 module.exports = Router;

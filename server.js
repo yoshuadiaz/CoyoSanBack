@@ -19,6 +19,10 @@ app.use("/sensei-types", SenseiTypesRouter)
 app.use("/user", UserRouter)
 app.use("/goal", GoalRouter)
 app.use("/saving", SavingRouter)
+app.get("/", function(req, res) {
+  res.send("CoyoSan App")
+  res.end()
+})
 
 const port = process.env.SERVER_PORT || 3000
 app.listen(port, () => {

@@ -39,7 +39,7 @@ Router.get("/update", async function(request, response) {
     });
     //controller
     //return const result = id of the health calculated
-    let result = 4;
+    let result = await senei_health(fristSaving.createdAt, decoded.id_goal);
 
     const sensei = await db.Sensei.update(
       { id_sensei_health: result },
@@ -58,7 +58,8 @@ Router.get("/update", async function(request, response) {
       order: [[db.Saving, "createdAt", "DESC"]]
     });
     return response.json(goal);
-  } catch {
+  } catch (error) {
+    console.log(error);
     response.status(400).send("Unexpected error");
   }
   response.end();

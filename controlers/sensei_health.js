@@ -1,37 +1,45 @@
-// const express = require("express");
-// const db = require("./db/models");
-// const moment = require("moment");
+const db = require("../db/models");
+const moment = require("moment");
 
-// async function(req,resp){
-//     const goal = await req.body.goal_id
-//     const savings = await req.Saving.FindAll({where:{id_goal:goal}})
-//     if (!savings){
-//         return error ("This user hasnt start game")
-//     } else {
-//         const {price, savingAccumReal, createAt} = await req.Goal.FindOne({where:{id:goal}})
+const sensei_health = async (firstSavingDate, goalId) => {
+  if (!firstSavingDate) {
+    throw new Error("This user hasn't start game");
+  } else {
+    const today = moment();
+    const mounthsDif = today.diff(firstSavingDate, "M");
+    let healthStatus = null;
+    try {
+      const { price, amountAccumReal, amountToBe } = await db.Goal.findOne({
+        where: { id: goalId }
+      });
+      const savingAccumToBe = amountToBe * mounthsDif;
+      const savingAccumLessThreeMonths = savingAccumToBe - amountToBe * 3;
 
-//         const today = moment()
-//         const mounthsDif = today.diff(createAt,"M");
+      if (amountAccumReal === savingAccumToBe) {
+        healthStatus = "FINE";
+      }
+      if (savingAccumLessThreeMonths <= amountAccumReal < savingAccumToBe) {
+        healthStatus = "SICK";
+      }
+      if (amountAccumReal < savingAccumLessThreeMonths) {
+        healthStatus = "DEAD";
+      }
+      if (price > amountAccumReal > savingAccumToBe) {
+        healthStatus = "HAPPY";
+      }
+      if (price <= amountAccumReal) {
+        healthStatus = "PROUD";
+      }
 
-//         const savingAccumToBe = goal_savingToBe * mounthsDif;
-//         const savingAccumSick = savingAccumToBe - goal_savingToBe*3;
+      const sensei_health = await db.Sensei_health.findOne({
+        where: { name: healthStatus }
+      });
+      return sensei_health.id;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Failure");
+    }
+  }
+};
 
-//         if (savingAccumReal==savingAccumToBe){
-//             return (name.sensei_health = "FINE");
-//         }
-//         if (savingAccumSick<savingAccumReal<savingAccumToBe){
-//             return (name.sensei_health = "SICK");
-//         }
-//         if (savingAccumReal < savingAccumSick) {
-//             return (name.sensei_health = "DEAD");
-//         }
-//         if (price > savingAccumReal > savingAccumToBe) {
-//             return (name.sensei_health = "HAPPY");
-//         }
-//         if (price =< savingAccumReal){
-//             return (name.sensei_health = "PROUD");
-//         }
-//     }
-
-//     resp.end()
-// });
+module.exports = sensei_health;

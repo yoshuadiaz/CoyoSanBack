@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     amountToBe: {
-      type: DataTypes.REAL(10, 2),
+      type: DataTypes.FLOAT(10, 2),
       allowNull: false
     },
     amountAccumReal: {
-      type: DataTypes.REAL(10, 2),
+      type: DataTypes.FLOAT(10, 2),
       allowNull: false,
       defaultValue: 0
     },
@@ -30,21 +30,21 @@ module.exports = (sequelize, DataTypes) => {
         key: "id"
       }
     }
-  });
+  })
 
   Goal.associate = function(models) {
     Goal.belongsTo(models.User, {
       foreignKey: "id_user",
       sourceKey: "id"
-    });
+    })
     Goal.hasMany(models.Saving, {
       foreignKey: "id_goal",
       sourceKey: "id"
-    });
+    })
     Goal.hasOne(models.Sensei, {
       foreignKey: "id_goal",
       sourceKey: "id"
-    });
-  };
-  return Goal;
-};
+    })
+  }
+  return Goal
+}

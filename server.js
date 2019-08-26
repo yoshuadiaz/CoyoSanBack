@@ -1,6 +1,7 @@
 require("dotenv").config()
 const bodyParser = require("body-parser")
-// const db = require("./db/models")
+const http = require("http")
+const db = require("./db/models")
 
 // db.sequelize.sync()
 
@@ -12,7 +13,7 @@ const app = express()
 // const GoalRouter = require("./routes/goal")
 // const SavingRouter = require("./routes/saving")
 //const sensei_health = require("./controlers/sensei_health");
-
+app.set("port", process.env.SERVER_PORT || 3000)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 // app.use("/sensei-types", SenseiTypesRouter)
@@ -24,8 +25,13 @@ app.get("/", function(req, res) {
   res.end()
 })
 
-const port = process.env.SERVER_PORT || 3000
-
-app.listen(port, function() {
-  console.log("app running on port: " + port)
-})
+db.sequelize
+  .sync()
+  .then(function() {
+    http.createServer(app).listen(app.get("port"), function() {
+      console.log("Express server listening on port " + app.get("port"))
+    })
+  })
+  .catch(function(error) {
+    console.error(error)
+  })

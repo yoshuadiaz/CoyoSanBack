@@ -12,8 +12,7 @@ const app = express()
 // const GoalRouter = require("./routes/goal")
 // const SavingRouter = require("./routes/saving")
 //const sensei_health = require("./controlers/sensei_health");
-app.set("host", process.env.HOST || "localhost")
-app.set("port", process.env.SERVER_PORT || 3000)
+app.set("port", process.env.PORT || 3000)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 // app.use("/sensei-types", SenseiTypesRouter)
@@ -29,12 +28,7 @@ db.sequelize
   .sync()
   .then(function() {
     app.listen(app.get("port"), function() {
-      console.log(
-        "%s server listening at http://%s:%s",
-        process.env.NODE_ENV,
-        app.get("host"),
-        app.get("port")
-      )
+      console.log("SERVER RUNNING")
     })
   })
   .catch(function(error) {

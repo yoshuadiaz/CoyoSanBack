@@ -25,6 +25,7 @@ app.get("/", function(req, res) {
 })
 
 const port = process.env.SERVER_PORT || 3000
-app.listen(port, () => {
-  console.log(`Servidor conectado corectamente al puerto ${port}`)
+
+app.listen(port, function() {
+  console.log("app running on port: " + port)
 })

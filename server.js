@@ -24,8 +24,4 @@ app.get("/", function(req, res) {
   res.end()
 })
 
-const port = process.env.SERVER_PORT || 3000
-
-app.listen(port, function() {
-  console.log("app running on port: " + port)
-})
+module.exports = app

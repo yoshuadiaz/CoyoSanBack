@@ -1,6 +1,6 @@
 require("dotenv").config()
 const Url = require("url-parse")
-const DATABASE_URL = new Url(process.env.DATABASE_URL)
+const DATABASE_URL = new Url(process.env.CLEARDB_DATABASE_URL)
 
 console.log(DATABASE_URL)
 

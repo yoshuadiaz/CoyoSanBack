@@ -2,8 +2,6 @@ require("dotenv").config()
 const Url = require("url-parse")
 const DATABASE_URL = new Url(process.env.CLEARDB_DATABASE_URL)
 
-console.log(DATABASE_URL)
-
 module.exports = {
   development: {
     dialect: process.env.DEV_DATABASE_DIALECT,

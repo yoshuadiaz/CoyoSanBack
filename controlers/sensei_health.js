@@ -15,6 +15,7 @@
 
 //         const savingAccumToBe = goal_savingToBe * mounthsDif;
 //         const savingAccumSick = savingAccumToBe - goal_savingToBe*3;
+
 //         if (savingAccumReal==savingAccumToBe){
 //             return (name.sensei_health = "FINE");
 //         }
